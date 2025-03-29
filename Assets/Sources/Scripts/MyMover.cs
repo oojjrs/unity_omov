@@ -11,6 +11,8 @@ namespace oojjrs.omov
         [SerializeField]
         private bool _debugMode = false;
         [SerializeField]
+        private float _maxSnapDistance = 1;
+        [SerializeField]
         private float _skinWidth = 0.001f;
 
         private CapsuleCollider CapsuleCollider { get; set; }
@@ -18,6 +20,25 @@ namespace oojjrs.omov
         private void Awake()
         {
             CapsuleCollider = GetComponent<CapsuleCollider>();
+        }
+
+        private void AdjustToGround(float maxSnapDistance)
+        {
+            var origin = transform.TransformPoint(CapsuleCollider.center);
+            var distance = CapsuleCollider.height * 0.5f + maxSnapDistance;
+
+            if (Physics.Raycast(origin, Vector3.down, out var hit, distance, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore))
+            {
+                var groundOffset = hit.distance - CapsuleCollider.height * 0.5f;
+                if (groundOffset > _skinWidth)
+                {
+                    var pos = transform.position + (groundOffset - _skinWidth) * Vector3.down;
+                    if (_debugMode)
+                        Debug.Log($"{name}> 바닥에 맞춰 조정됨 : {transform.position} -> {pos}");
+
+                    transform.position = pos;
+                }
+            }
         }
 
         public void MoveDelta(Vector3 dir, float speed)
@@ -42,6 +63,8 @@ namespace oojjrs.omov
             {
                 transform.position += dir * distance;
             }
+
+            AdjustToGround(_maxSnapDistance);
         }
 
         public void SnapToGround(bool tryFindUpOnFail = false)
