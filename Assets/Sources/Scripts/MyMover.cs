@@ -16,6 +16,8 @@ namespace oojjrs.omov
         private float _skinWidth = 0.001f;
         [SerializeField]
         private float _slopeAngle = 35;
+        [SerializeField]
+        private float _stepHeight = 0.3f;
 
         private CapsuleCollider CapsuleCollider { get; set; }
 
@@ -61,6 +63,7 @@ namespace oojjrs.omov
                 if (_debugMode)
                     Debug.Log($"{name}> 충돌함({hit.collider.name}) : {angle}도");
 
+                // 경사면 올라가기
                 if (angle <= _slopeAngle)
                 {
                     var slopeDir = Vector3.ProjectOnPlane(dir, hit.normal).normalized;
@@ -69,7 +72,8 @@ namespace oojjrs.omov
                     else
                         transform.position += slopeDir * distance;
                 }
-                else
+                // 벽에 대고 미끄러지기
+                else if (Physics.Raycast(transform.position + Vector3.up * _stepHeight, dir, out var _, distance, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore))
                 {
                     transform.position += (hit.distance - _skinWidth) * dir;
 
@@ -89,6 +93,21 @@ namespace oojjrs.omov
                     }
 
                     AdjustToGround(_maxSnapDistance);
+                }
+                // 계단 오르기
+                else
+                {
+                    var stepOrigin = transform.TransformPoint(CapsuleCollider.center) + dir * distance + Vector3.up * _stepHeight;
+                    var stepPoint1 = stepOrigin + Vector3.up * halfHeight;
+                    var stepPoint2 = stepOrigin - Vector3.up * halfHeight;
+                    if (Physics.CapsuleCast(stepPoint1, stepPoint2, radius, Vector3.down, out RaycastHit hitStep, _stepHeight + _skinWidth, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore))
+                    {
+                        var pos = hitStep.point + Vector3.up * _skinWidth;
+                        if (_debugMode)
+                            Debug.Log($"{name}> 계단이다({hitStep.collider.name}) : {pos}");
+
+                        transform.position = pos;
+                    }
                 }
             }
             else

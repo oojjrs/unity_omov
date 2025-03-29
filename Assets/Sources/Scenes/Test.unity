@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 44886647}
   - component: {fileID: 44886646}
   m_Layer: 0
-  m_Name: Floor_1
+  m_Name: Stair_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -415,6 +415,8 @@ MonoBehaviour:
   _debugMode: 0
   _maxSnapDistance: 1
   _skinWidth: 0.001
+  _slopeAngle: 35
+  _stepHeight: 0.3
 --- !u!136 &88028807
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -758,6 +760,8 @@ MonoBehaviour:
   _debugMode: 0
   _maxSnapDistance: 1
   _skinWidth: 0.001
+  _slopeAngle: 35
+  _stepHeight: 0.3
 --- !u!136 &217405320
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -862,7 +866,7 @@ GameObject:
   - component: {fileID: 254742634}
   - component: {fileID: 254742633}
   m_Layer: 0
-  m_Name: Floor_3
+  m_Name: Stair_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1440,7 +1444,7 @@ GameObject:
   - component: {fileID: 704178030}
   - component: {fileID: 704178029}
   m_Layer: 0
-  m_Name: Floor_5
+  m_Name: Stair_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1570,6 +1574,8 @@ MonoBehaviour:
   _debugMode: 0
   _maxSnapDistance: 1
   _skinWidth: 0.001
+  _slopeAngle: 35
+  _stepHeight: 0.3
 --- !u!136 &751789688
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1696,6 +1702,8 @@ MonoBehaviour:
   _debugMode: 0
   _maxSnapDistance: 1
   _skinWidth: 0.001
+  _slopeAngle: 35
+  _stepHeight: 0.3
 --- !u!136 &755439716
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2124,7 +2132,7 @@ GameObject:
   - component: {fileID: 1019227408}
   - component: {fileID: 1019227407}
   m_Layer: 0
-  m_Name: Floor_4
+  m_Name: Stair_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2229,7 +2237,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1060706154}
   m_Layer: 0
-  m_Name: Floor
+  m_Name: Stair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2293,6 +2301,8 @@ MonoBehaviour:
   _debugMode: 0
   _maxSnapDistance: 1
   _skinWidth: 0.001
+  _slopeAngle: 35
+  _stepHeight: 0.3
 --- !u!136 &1085015769
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2727,6 +2737,8 @@ MonoBehaviour:
   _debugMode: 0
   _maxSnapDistance: 1
   _skinWidth: 0.001
+  _slopeAngle: 35
+  _stepHeight: 0.3
 --- !u!136 &1302525643
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2939,7 +2951,7 @@ GameObject:
   - component: {fileID: 1374438935}
   - component: {fileID: 1374438934}
   m_Layer: 0
-  m_Name: Floor_7
+  m_Name: Stair_7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3047,7 +3059,7 @@ GameObject:
   - component: {fileID: 1425554110}
   - component: {fileID: 1425554109}
   m_Layer: 0
-  m_Name: Floor_8
+  m_Name: Stair_8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3306,6 +3318,8 @@ MonoBehaviour:
   _debugMode: 1
   _maxSnapDistance: 1
   _skinWidth: 0.001
+  _slopeAngle: 35
+  _stepHeight: 0.3
 --- !u!136 &1627822076
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3490,6 +3504,8 @@ MonoBehaviour:
   _debugMode: 0
   _maxSnapDistance: 1
   _skinWidth: 0.001
+  _slopeAngle: 35
+  _stepHeight: 0.3
 --- !u!136 &1721824656
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3811,7 +3827,7 @@ GameObject:
   - component: {fileID: 1820433203}
   - component: {fileID: 1820433202}
   m_Layer: 0
-  m_Name: Floor_2
+  m_Name: Stair_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3941,6 +3957,8 @@ MonoBehaviour:
   _debugMode: 0
   _maxSnapDistance: 1
   _skinWidth: 0.001
+  _slopeAngle: 35
+  _stepHeight: 0.3
 --- !u!136 &1923795131
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4045,7 +4063,7 @@ GameObject:
   - component: {fileID: 1957883896}
   - component: {fileID: 1957883895}
   m_Layer: 0
-  m_Name: Floor_6
+  m_Name: Stair_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
