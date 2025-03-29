@@ -58,6 +58,15 @@ namespace oojjrs.omov
                     Debug.Log($"{name}> 충돌함 : {hit.collider.name}");
 
                 transform.position += (hit.distance - _skinWidth) * dir;
+
+                var slideDir = Vector3.ProjectOnPlane(dir, hit.normal);
+                if (slideDir != Vector3.zero)
+                {
+                    if (Physics.CapsuleCast(point1, point2, radius, slideDir, out RaycastHit slideHit, distance, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore))
+                        transform.position += (slideHit.distance - _skinWidth) * slideDir;
+                    else
+                        transform.position += slideDir * distance;
+                }
             }
             else
             {
