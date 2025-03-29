@@ -6,6 +6,8 @@ namespace oojjrs.omov
     public class MyMover : MonoBehaviour
     {
         [SerializeField]
+        private bool _debugMode = false;
+        [SerializeField]
         private float _skinWidth = 0.001f;
 
         private CapsuleCollider CapsuleCollider { get; set; }
@@ -28,7 +30,9 @@ namespace oojjrs.omov
             var distance = speed * Time.deltaTime;
             if (Physics.CapsuleCast(point1, point2, radius, dir, out RaycastHit hit, distance, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore))
             {
-                Debug.Log($"충돌함 : {hit.collider.name}");
+                if (_debugMode)
+                    Debug.Log($"충돌함 : {hit.collider.name}");
+
                 transform.position += (hit.distance - _skinWidth) * dir;
             }
             else

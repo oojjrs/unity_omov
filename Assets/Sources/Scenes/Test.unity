@@ -406,10 +406,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa096675278521440890344b326a2688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collisionCheckMargin: 0.001
-  _groundSnapDistance: 1
-  _slopeLimit: 35
-  _stepHeight: 0.3
+  _debugMode: 0
+  _skinWidth: 0.001
 --- !u!136 &88028807
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -533,10 +531,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa096675278521440890344b326a2688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collisionCheckMargin: 0.001
-  _groundSnapDistance: 1
-  _slopeLimit: 35
-  _stepHeight: 0.3
+  _debugMode: 0
+  _skinWidth: 0.001
 --- !u!136 &217405320
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1189,10 +1185,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa096675278521440890344b326a2688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collisionCheckMargin: 0.001
-  _groundSnapDistance: 1
-  _slopeLimit: 35
-  _stepHeight: 0.3
+  _debugMode: 0
+  _skinWidth: 0.001
 --- !u!136 &751789688
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1571,10 +1565,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa096675278521440890344b326a2688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collisionCheckMargin: 0.001
-  _groundSnapDistance: 1
-  _slopeLimit: 35
-  _stepHeight: 0.3
+  _debugMode: 0
+  _skinWidth: 0.001
 --- !u!136 &1085015769
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1898,10 +1890,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa096675278521440890344b326a2688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collisionCheckMargin: 0.001
-  _groundSnapDistance: 1
-  _slopeLimit: 35
-  _stepHeight: 0.3
+  _debugMode: 0
+  _skinWidth: 0.001
 --- !u!136 &1302525643
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2478,10 +2468,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa096675278521440890344b326a2688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collisionCheckMargin: 0.001
-  _groundSnapDistance: 1
-  _slopeLimit: 35
-  _stepHeight: 0.3
+  _debugMode: 1
+  _skinWidth: 0.001
 --- !u!136 &1627822076
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2554,10 +2542,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa096675278521440890344b326a2688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collisionCheckMargin: 0.001
-  _groundSnapDistance: 1
-  _slopeLimit: 35
-  _stepHeight: 0.3
+  _debugMode: 0
+  _skinWidth: 0.001
 --- !u!136 &1721824656
 CapsuleCollider:
   m_ObjectHideFlags: 0
