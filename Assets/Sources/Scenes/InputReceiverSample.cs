@@ -8,6 +8,11 @@ namespace Assets.Sources.Scenes
         [SerializeField]
         private MyMover _mover;
 
+        private void Start()
+        {
+            _mover.SnapToGround();
+        }
+
         private void Update()
         {
             var h = Input.GetAxisRaw("Horizontal");

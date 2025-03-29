@@ -5,6 +5,9 @@ namespace oojjrs.omov
     [RequireComponent(typeof(CapsuleCollider))]
     public class MyMover : MonoBehaviour
     {
+        // 적당히 긴 거리
+        private const float AmpleDistance = 1000;
+
         [SerializeField]
         private bool _debugMode = false;
         [SerializeField]
@@ -39,6 +42,13 @@ namespace oojjrs.omov
             {
                 transform.position += dir * distance;
             }
+        }
+
+        public void SnapToGround()
+        {
+            var origin = transform.TransformPoint(CapsuleCollider.center);
+            if (Physics.Raycast(origin, Vector3.down, out var hit, AmpleDistance, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore))
+                transform.position += (hit.distance - CapsuleCollider.height * 0.5f - _skinWidth) * Vector3.down;
         }
     }
 }
