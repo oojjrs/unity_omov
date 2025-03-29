@@ -34,7 +34,7 @@ namespace oojjrs.omov
             if (Physics.CapsuleCast(point1, point2, radius, dir, out RaycastHit hit, distance, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore))
             {
                 if (_debugMode)
-                    Debug.Log($"충돌함 : {hit.collider.name}");
+                    Debug.Log($"{name}> 충돌함 : {hit.collider.name}");
 
                 transform.position += (hit.distance - _skinWidth) * dir;
             }
@@ -49,13 +49,23 @@ namespace oojjrs.omov
             var origin = transform.TransformPoint(CapsuleCollider.center);
             if (Physics.Raycast(origin, Vector3.down, out var hitDown, AmpleDistance, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore))
             {
-                transform.position += (hitDown.distance - CapsuleCollider.height * 0.5f - _skinWidth) * Vector3.down;
+                var pos = transform.position + (hitDown.distance - CapsuleCollider.height * 0.5f - _skinWidth) * Vector3.down;
+                if (_debugMode)
+                    Debug.Log($"{name}> 바닥 찾음 : {transform.position} -> {pos}");
+
+                transform.position = pos;
             }
             else if (tryFindUpOnFail)
             {
                 var originUp = origin + Vector3.up * AmpleDistance;
                 if (Physics.Raycast(originUp, Vector3.down, out var hit, AmpleDistance, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore))
-                    transform.position = originUp + (hit.distance - CapsuleCollider.height * 0.5f - _skinWidth) * Vector3.down;
+                {
+                    var pos = originUp + (hit.distance - CapsuleCollider.height * 0.5f - _skinWidth) * Vector3.down;
+                    if (_debugMode)
+                        Debug.Log($"{name}> 아래 바닥이 없어서 올라가서 찾음 : {transform.position} -> {pos}");
+
+                    transform.position = pos;
+                }
             }
         }
     }
