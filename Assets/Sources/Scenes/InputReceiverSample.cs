@@ -13,7 +13,7 @@ namespace Assets.Sources.Scenes
             var h = Input.GetAxisRaw("Horizontal");
             var v = Input.GetAxisRaw("Vertical");
             if (h != 0 || v != 0)
-                _mover.MoveByDeltaTime(new Vector3(h, 0f, v).normalized, 8f);
+                _mover.MoveDelta(new Vector3(h, 0f, v).normalized, 8f);
         }
     }
 }
