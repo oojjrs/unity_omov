@@ -73,7 +73,7 @@ namespace oojjrs.omov
                         transform.position += slopeDir * distance;
                 }
                 // 벽에 대고 미끄러지기
-                else if (Physics.Raycast(transform.position + Vector3.up * _stepHeight, dir, out var _, distance, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore))
+                else if (Physics.CapsuleCast(point1 + Vector3.up * _stepHeight, point2 + Vector3.up * _stepHeight, radius, dir, out var _, distance, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore))
                 {
                     transform.position += (hit.distance - _skinWidth) * dir;
 
