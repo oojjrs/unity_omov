@@ -14,6 +14,8 @@ namespace oojjrs.omov
         private float _maxSnapDistance = 1;
         [SerializeField]
         private float _skinWidth = 0.001f;
+        [SerializeField]
+        private float _slopeAngle = 35;
 
         private CapsuleCollider CapsuleCollider { get; set; }
 
@@ -34,7 +36,7 @@ namespace oojjrs.omov
                 {
                     var pos = transform.position + (groundOffset - _skinWidth) * Vector3.down;
                     if (_debugMode)
-                        Debug.Log($"{name}> 바닥에 맞춰 조정됨 : {transform.position} -> {pos}");
+                        Debug.Log($"{name}> 바닥({hit.collider.name})에 맞춰 조정됨 : {transform.position} -> {pos}");
 
                     transform.position = pos;
                 }
@@ -54,26 +56,41 @@ namespace oojjrs.omov
             var distance = speed * Time.deltaTime;
             if (Physics.CapsuleCast(point1, point2, radius, dir, out RaycastHit hit, distance, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore))
             {
+                var angle = Vector3.Angle(hit.normal, Vector3.up);
+
                 if (_debugMode)
-                    Debug.Log($"{name}> 충돌함 : {hit.collider.name}");
+                    Debug.Log($"{name}> 충돌함({hit.collider.name}) : {angle}도");
 
-                transform.position += (hit.distance - _skinWidth) * dir;
-
-                var slideDir = Vector3.ProjectOnPlane(dir, hit.normal);
-                if (slideDir != Vector3.zero)
+                if (angle <= _slopeAngle)
                 {
-                    if (Physics.CapsuleCast(point1, point2, radius, slideDir, out RaycastHit slideHit, distance, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore))
-                        transform.position += (slideHit.distance - _skinWidth) * slideDir;
+                    var slopeDir = Vector3.ProjectOnPlane(dir, hit.normal).normalized;
+                    if (Physics.CapsuleCast(point1, point2, radius, slopeDir, out RaycastHit slopeHit, distance, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore))
+                        transform.position += (slopeHit.distance - _skinWidth) * slopeDir;
                     else
-                        transform.position += slideDir * distance;
+                        transform.position += slopeDir * distance;
+                }
+                else
+                {
+                    transform.position += (hit.distance - _skinWidth) * dir;
+
+                    var slideDir = Vector3.ProjectOnPlane(dir, hit.normal);
+                    if (slideDir != Vector3.zero)
+                    {
+                        if (Physics.CapsuleCast(point1, point2, radius, slideDir, out RaycastHit slideHit, distance, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore))
+                            transform.position += (slideHit.distance - _skinWidth) * slideDir;
+                        else
+                            transform.position += slideDir * distance;
+                    }
+
+                    AdjustToGround(_maxSnapDistance);
                 }
             }
             else
             {
                 transform.position += dir * distance;
-            }
 
-            AdjustToGround(_maxSnapDistance);
+                AdjustToGround(_maxSnapDistance);
+            }
         }
 
         public void SnapToGround(bool tryFindUpOnFail = false)
@@ -83,7 +100,7 @@ namespace oojjrs.omov
             {
                 var pos = transform.position + (hitDown.distance - CapsuleCollider.height * 0.5f - _skinWidth) * Vector3.down;
                 if (_debugMode)
-                    Debug.Log($"{name}> 바닥 찾음 : {transform.position} -> {pos}");
+                    Debug.Log($"{name}> 바닥 찾음({hitDown.collider.name}) : {transform.position} -> {pos}");
 
                 transform.position = pos;
             }
@@ -94,7 +111,7 @@ namespace oojjrs.omov
                 {
                     var pos = originUp + (hit.distance - CapsuleCollider.height * 0.5f - _skinWidth) * Vector3.down;
                     if (_debugMode)
-                        Debug.Log($"{name}> 아래 바닥이 없어서 올라가서 찾음 : {transform.position} -> {pos}");
+                        Debug.Log($"{name}> 아래 바닥이 없어서 올라가서 찾음({hit.collider.name}) : {transform.position} -> {pos}");
 
                     transform.position = pos;
                 }
