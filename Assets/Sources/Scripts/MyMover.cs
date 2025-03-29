@@ -44,11 +44,19 @@ namespace oojjrs.omov
             }
         }
 
-        public void SnapToGround()
+        public void SnapToGround(bool tryFindUpOnFail = false)
         {
             var origin = transform.TransformPoint(CapsuleCollider.center);
-            if (Physics.Raycast(origin, Vector3.down, out var hit, AmpleDistance, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore))
-                transform.position += (hit.distance - CapsuleCollider.height * 0.5f - _skinWidth) * Vector3.down;
+            if (Physics.Raycast(origin, Vector3.down, out var hitDown, AmpleDistance, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore))
+            {
+                transform.position += (hitDown.distance - CapsuleCollider.height * 0.5f - _skinWidth) * Vector3.down;
+            }
+            else if (tryFindUpOnFail)
+            {
+                var originUp = origin + Vector3.up * AmpleDistance;
+                if (Physics.Raycast(originUp, Vector3.down, out var hit, AmpleDistance, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore))
+                    transform.position = originUp + (hit.distance - CapsuleCollider.height * 0.5f - _skinWidth) * Vector3.down;
+            }
         }
     }
 }
