@@ -12,9 +12,9 @@ namespace oojjrs.omov
 
         [Header("이동 옵션")]
         [SerializeField]
-        private float _stepHeight = 0.3f;
-        [SerializeField]
         private float _slopeLimit = 35f;
+        [SerializeField]
+        private float _stepHeight = 0.3f;
 
         private CapsuleCollider CapsuleCollider { get; set; }
 
@@ -31,7 +31,7 @@ namespace oojjrs.omov
             var point1 = origin + Vector3.up * halfHeight;
             var point2 = origin - Vector3.up * halfHeight;
 
-            if (!Physics.CapsuleCast(point1, point2, radius, moveDelta.normalized, moveDelta.magnitude, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore))
+            if (Physics.CapsuleCast(point1, point2, radius, moveDelta.normalized, moveDelta.magnitude, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore) == false)
             {
                 transform.position += moveDelta;
             }
@@ -43,6 +43,7 @@ namespace oojjrs.omov
                 return;
 
             var moveDelta = speed * Time.deltaTime * dir.normalized;
+
             var origin = transform.position + CapsuleCollider.center + Vector3.up * _collisionCheckMargin;
             var radius = CapsuleCollider.radius;
             var halfHeight = Mathf.Max(0f, CapsuleCollider.height * 0.5f - radius);
@@ -55,9 +56,10 @@ namespace oojjrs.omov
 
                 if (angle <= _slopeLimit)
                 {
-                    transform.position += moveDelta;
+                    var slopeMove = Vector3.ProjectOnPlane(moveDelta, hit.normal);
+                    transform.position += slopeMove;
                 }
-                else if (TryStepUp(moveDelta, hit))
+                else if (TryStepUp(moveDelta))
                 {
                 }
                 else
@@ -71,38 +73,40 @@ namespace oojjrs.omov
                 transform.position += moveDelta;
             }
 
-            SnapToGround();
+            SnapToGround(dir);
         }
 
-        private void SnapToGround()
+        private void SnapToGround(Vector3 dir)
         {
-            var origin = transform.position + CapsuleCollider.center + Vector3.up * 0.1f;
+            var origin = transform.position + CapsuleCollider.center + dir.normalized * 0.1f + Vector3.up * 0.1f;
 
-            if (Physics.Raycast(origin, Vector3.down, out var hit, _groundSnapDistance, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(origin, Vector3.down, out var hit, _groundSnapDistance,
+                CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore))
             {
                 var bottomOffset = CapsuleCollider.height * 0.5f;
-                var snapPosition = hit.point - CapsuleCollider.center + Vector3.up * bottomOffset;
-                transform.position = snapPosition;
+                var y = hit.point.y - CapsuleCollider.center.y + bottomOffset;
+                var pos = transform.position;
+                pos.y = y;
+                transform.position = pos;
             }
         }
 
-        private bool TryStepUp(Vector3 moveDelta, RaycastHit hit)
+        private bool TryStepUp(Vector3 moveDelta)
         {
-            // 위로 올라간 위치에서 다시 시도
             var stepUpPos = transform.position + Vector3.up * _stepHeight;
-            var newOrigin = stepUpPos + CapsuleCollider.center + Vector3.up * _collisionCheckMargin;
+            var stepDownPos = stepUpPos + moveDelta;
+
             var radius = CapsuleCollider.radius;
             var halfHeight = Mathf.Max(0f, CapsuleCollider.height * 0.5f - radius);
-            var point1 = newOrigin + Vector3.up * halfHeight;
-            var point2 = newOrigin - Vector3.up * halfHeight;
+            var origin = stepUpPos + CapsuleCollider.center + Vector3.up * _collisionCheckMargin;
+            var point1 = origin + Vector3.up * halfHeight;
+            var point2 = origin - Vector3.up * halfHeight;
 
-            if (!Physics.CapsuleCast(point1, point2, radius, moveDelta.normalized, moveDelta.magnitude, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore))
-            {
-                transform.position = stepUpPos + moveDelta;
-                return true;
-            }
+            if (Physics.CapsuleCast(point1, point2, radius, moveDelta.normalized, moveDelta.magnitude, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore) == false)
+                return false;
 
-            return false;
+            transform.position = stepDownPos;
+            return true;
         }
     }
 }
