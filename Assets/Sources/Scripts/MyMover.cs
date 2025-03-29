@@ -73,9 +73,15 @@ namespace oojjrs.omov
                 {
                     transform.position += (hit.distance - _skinWidth) * dir;
 
-                    var slideDir = Vector3.ProjectOnPlane(dir, hit.normal);
+                    var slideDir = Vector3.Cross(hit.normal, Vector3.up);
+                    if (Vector3.Dot(slideDir, dir) < 0)
+                        slideDir = -slideDir;
+
                     if (slideDir != Vector3.zero)
                     {
+                        if (_debugMode)
+                            Debug.Log($"{name}> 벽에 의해 방향 보정 : {Vector3.Angle(dir, slideDir)}도");
+
                         if (Physics.CapsuleCast(point1, point2, radius, slideDir, out RaycastHit slideHit, distance, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore))
                             transform.position += (slideHit.distance - _skinWidth) * slideDir;
                         else
