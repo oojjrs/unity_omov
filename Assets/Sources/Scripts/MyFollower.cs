@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Assets.Sources.Scripts
+namespace oojjrs.omov
 {
     // 초간단 이동기
     public class MyFollower : MonoBehaviour
