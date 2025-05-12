@@ -13,8 +13,6 @@ namespace oojjrs.omov
         [SerializeField]
         private float _maxSnapDistance = 1;
         [SerializeField]
-        private float _minMoveDistance = 0.001f;
-        [SerializeField]
         private float _skinWidth = 0.001f;
         [SerializeField]
         private float _slopeAngle = 35;
@@ -52,15 +50,12 @@ namespace oojjrs.omov
             if (dir == Vector3.zero)
                 return;
 
-            var distance = speed * Time.deltaTime;
-            if (distance <= _minMoveDistance)
-                return;
-
             var origin = transform.TransformPoint(CapsuleCollider.center);
             var radius = CapsuleCollider.radius;
             var halfHeight = Mathf.Max(0, CapsuleCollider.height * 0.5f - radius);
             var point1 = origin + Vector3.up * halfHeight;
             var point2 = origin - Vector3.up * halfHeight;
+            var distance = speed * Time.deltaTime;
             if (Physics.CapsuleCast(point1, point2, radius, dir, out RaycastHit hit, distance, CapsuleCollider.includeLayers, QueryTriggerInteraction.Ignore))
             {
                 var angle = Vector3.Angle(hit.normal, Vector3.up);
